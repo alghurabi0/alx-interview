@@ -1,7 +1,19 @@
-n = arrayOfBoxes.len
-1-foreach box
-2-for each key in the box
-3-if key < n
-4-append to set
+#!/usr/bin/env python3
+""" alx interview task """
 
-5-is set.len == n ? return true : false
+
+def canUnlockAll(boxes):
+    """ alx interview task """
+    n = len(boxes)
+    visited = set()
+    stack = [0]
+
+    while stack:
+        box = stack.pop()
+        if box not in visited:
+            visited.add(box)
+            for key in boxes[box]:
+                if key < n:
+                    stack.append(key)
+
+    return len(visited) == n
