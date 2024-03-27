@@ -5,6 +5,19 @@ import re
 import signal
 
 
+info = {
+        "file_size": 0,
+        "200": 0,
+        "301": 0,
+        "400": 0,
+        "401": 0,
+        "403": 0,
+        "404": 0,
+        "405": 0,
+        "500": 0
+    }
+
+
 def signal_handler(signal, frame):
     """ signal handler func """
     print_info(info)
