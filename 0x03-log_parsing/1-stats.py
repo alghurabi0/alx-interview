@@ -5,10 +5,13 @@ import re
 import signal
 
 
+ctrl_c_pressed = False
+
+
 def signal_handler(signal, frame):
     """ signal handler func """
-    print_info(info)
-    sys.exit(0)
+    global ctrl_c_pressed
+    ctrl_c_pressed = True
 
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -34,27 +37,41 @@ def main():
             line = line.strip()
             if not re.match(regex, line):
                 continue
-            parts = line.split(" ")
-            status = parts[7]
-            size = parts[8]
-            if not status.isdigit() or status not in info:
+            line = line.split(" ")
+            status = line[7]
+            size = line[8]
+            if status not in info:
                 continue
             info[status] += 1
             info["file_size"] += int(size)
             count += 1
             if count == 10:
-                print_info(info)
                 count = 0
+                print_info(info)
     except KeyboardInterrupt:
-        signal_handler(signal.SIGINT, None)
+        if ctrl_c_pressed:
+            print_info(info)
 
 
 def print_info(info):
-    """ helper print func """
+    """ helper pring func """
     print(f"File size: {info['file_size']}")
-    for c, count in info.items():
-        if c.isdigit() and int(c) in [200, 301, 400, 401, 403, 404, 405, 500]:
-            print(f"{c}: {count}")
+    if info['200'] != 0:
+        print(f"200: {info['200']}")
+    if info['301'] != 0:
+        print(f"301: {info['301']}")
+    if info['400'] != 0:
+        print(f"400: {info['400']}")
+    if info['401'] != 0:
+        print(f"401: {info['401']}")
+    if info['403'] != 0:
+        print(f"403: {info['403']}")
+    if info['404'] != 0:
+        print(f"404: {info['404']}")
+    if info['405'] != 0:
+        print(f"405: {info['405']}")
+    if info['500'] != 0:
+        print(f"500: {info['500']}")
 
 
 if __name__ == "__main__":
