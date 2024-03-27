@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" log parsing """
 import sys
 import re
 import signal
@@ -8,6 +9,7 @@ ctrl_c_pressed = False
 
 
 def signal_handler(signal, frame):
+    """ signal handler func """
     global ctrl_c_pressed
     ctrl_c_pressed = True
 
@@ -16,6 +18,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 
 def main():
+    """ log parsing problem """
     regex = r'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - \[.*\] "GET /projects/260 HTTP/1\.1" \d+ \d+$'  # noqa
     info = {
         "file_size": 0,
@@ -51,6 +54,7 @@ def main():
 
 
 def print_info(info):
+    """ helper pring func """
     print(f"File size: {info['file_size']}")
     if info['200'] != 0:
         print(f"200: {info['200']}")
@@ -71,4 +75,5 @@ def print_info(info):
 
 
 if __name__ == "__main__":
+    """ main execution of code """
     main()
