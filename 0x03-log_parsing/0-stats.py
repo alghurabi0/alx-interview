@@ -16,7 +16,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 
 def main():
-    regex = r'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - \[.*\] "GET /projects/260 HTTP/1\.1" \d+ \d+$'
+    regex = r'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - \[.*\] "GET /projects/260 HTTP/1\.1" \d+ \d+$'  # noqa
     info = {
         "file_size": 0,
         "200": 0,
