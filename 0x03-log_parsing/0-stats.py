@@ -66,6 +66,8 @@ def print_info(info):
     """ helper print func """
     print(f"File size: {info['file_size']}")
     for c, count in info.items():
+        if count < 1:
+            continue
         if c.isdigit() and int(c) in [200, 301, 400, 401, 403, 404, 405, 500]:
             print(f"{c}: {count}")
 
