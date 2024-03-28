@@ -5,13 +5,23 @@ import re
 import signal
 
 
-ctrl_c_pressed = False
+info = {
+        "file_size": 0,
+        "200": 0,
+        "301": 0,
+        "400": 0,
+        "401": 0,
+        "403": 0,
+        "404": 0,
+        "405": 0,
+        "500": 0
+    }
 
 
 def signal_handler(signal, frame):
     """ signal handler func """
-    global ctrl_c_pressed
-    ctrl_c_pressed = True
+    print_info(info)
+    sys.exit(0)
 
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -37,41 +47,27 @@ def main():
             line = line.strip()
             if not re.match(regex, line):
                 continue
-            line = line.split(" ")
-            status = line[7]
-            size = line[8]
-            if status not in info:
+            parts = line.split(" ")
+            status = parts[7]
+            size = parts[8]
+            if not status.isdigit() or status not in info:
                 continue
             info[status] += 1
             info["file_size"] += int(size)
             count += 1
             if count == 10:
-                count = 0
                 print_info(info)
+                count = 0
     except KeyboardInterrupt:
-        if ctrl_c_pressed:
-            print_info(info)
+        signal_handler(signal.SIGINT, None)
 
 
 def print_info(info):
-    """ helper pring func """
+    """ helper print func """
     print(f"File size: {info['file_size']}")
-    if info['200'] != 0:
-        print(f"200: {info['200']}")
-    if info['301'] != 0:
-        print(f"301: {info['301']}")
-    if info['400'] != 0:
-        print(f"400: {info['400']}")
-    if info['401'] != 0:
-        print(f"401: {info['401']}")
-    if info['403'] != 0:
-        print(f"403: {info['403']}")
-    if info['404'] != 0:
-        print(f"404: {info['404']}")
-    if info['405'] != 0:
-        print(f"405: {info['405']}")
-    if info['500'] != 0:
-        print(f"500: {info['500']}")
+    for c, count in info.items():
+        if c.isdigit() and int(c) in [200, 301, 400, 401, 403, 404, 405, 500]:
+            print(f"{c}: {count}")
 
 
 if __name__ == "__main__":

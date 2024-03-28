@@ -58,8 +58,8 @@ def main():
             if count == 10:
                 print_info(info)
                 count = 0
-    except KeyboardInterrupt:
-        signal_handler(signal.SIGINT, None)
+    finally:
+        print_info(info)
 
 
 def print_info(info):
