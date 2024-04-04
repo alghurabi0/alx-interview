@@ -41,4 +41,6 @@ def validUTF8(data):
         else:
             return False
 
-    return True
+    if bytesN is None or bytesN == 0:
+        return True
+    return False
