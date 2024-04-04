@@ -4,7 +4,7 @@
 
 def validUTF8(data):
     """UTF-8 Validation Practice"""
-    if data is None:
+    if data is None or data == []:
         return False
     bs = []
     for num in data:
